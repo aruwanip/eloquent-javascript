@@ -1,0 +1,22 @@
+{
+  "name": "eloquent-javascript",
+  "version": "1.0.0",
+  "description": "Examples and exercises from \"Eloquent JavaScript\" by Marijn Haverbeke",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aruwanip/eloquent-javascript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aruwanip/eloquent-javascript/issues"
+  },
+  "homepage": "https://github.com/aruwanip/eloquent-javascript#readme",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
