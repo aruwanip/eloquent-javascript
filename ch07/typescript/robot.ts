@@ -38,13 +38,14 @@ function buildGraph(edges: string[]): Graph {
     return graph;
 }
 
-const roadGraph: Graph = buildGraph(roads);
+export const roadGraph: Graph = buildGraph(roads);
 
 // console.log('Road Graph', roadGraph);
 
 interface Parcel {
     place: string;
     address: string;
+    route?: Route;
 }
 
 export class VillageState {
@@ -105,13 +106,13 @@ export interface Action {
 function runRobot(state: VillageState, robot: RobotFunction, memory: Route = []): number {
     for (let turn = 0; ; turn++) {
         if (state.parcels.length === 0) {
-            console.log(`Done in ${ turn } turns`);
+            // console.log(`Done in ${ turn } turns`);
             return turn;
         }
         let action: Action = robot(state, memory);
         state = state.move(action.direction);
         memory = action.memory;
-        console.log(`Moved to ${ action.direction }`);
+        // console.log(`Moved to ${ action.direction }`);
     }
 }
 
@@ -158,32 +159,34 @@ interface Work {
     route: Route;
 }
 
-function findRoute(graph: Graph, from: string, to: string): Route {
-    let work: Work[] = [{ at: from, route: [] }];
-    for (let i = 0; i < work.length; i++) {
-        let { at, route } = work[i];
-        for (let place of graph[at]) {
-            if (place === to) return route.concat(place);
-            if (!work.some(w => w.at === place)) {
+export function findRoute(graph: Graph, from: string, to: string): Route {
+    let work: Work[] = [{ at: from, route: [] }]; // Holds list of places to start from to reach destination (to)
+    for (let i = 0; i < work.length; i++) { // Notice work.length changes as places to traverse get added to work list
+        let { at, route } = work[i]; // Current location and route taken so far to reach that location
+        for (let place of graph[at]) { // Iterate through the places that can be reached from current location
+            if (place === to) return route.concat(place); // If a reachable place is the destination, stop searching
+            if (!work.some(w => w.at === place)) { // If a reachable place has not yet been explored from, add to the work list
                 work.push({ at: place, route: route.concat(place) });
+                // This method of adding places to explore will search all branches 1 deep, then 2 deep, then 3, etc. rather than
+                // exploring a branch completely to ensure shortest route to destination
             }
         }
     }
 }
 
 export function goalOrientedRobot({ place, parcels }: VillageState, route: Route): Action {
-    if (route.length === 0) {
-        let parcel = parcels[0];
-        if (parcel.place !== place) {
+    if (route.length === 0) { // No route established, determine route for first parcel
+        let parcel = parcels[0]; // Pick up first parcel in list
+        if (parcel.place !== place) { // Parcel's pickup location is not current location of robot, find route to parcel
             route = findRoute(roadGraph, place, parcel.place);
-        } else {
+        } else { // Parcel is picked up, find route to destination address
             route = findRoute(roadGraph, place, parcel.address);
         }
     }
     return { direction: route[0], memory: route.slice(1) };
 }
 
-runRobot(VillageState.random(), goalOrientedRobot);
+// runRobot(VillageState.random(), goalOrientedRobot);
 
 /*
 Road Graph
