@@ -148,4 +148,4 @@ function goalOrientedRobot({place, parcels}, route) {
 
 // console.log('\n********************\n');
 // console.log('Run robot goal oriented\n');
-// runRobot(VillageState.random(), goalOrientedRobot);
+// runRobot(VillageState.random(), goalOrientedRobot, []);
