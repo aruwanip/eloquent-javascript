@@ -17,6 +17,11 @@
   },
   "homepage": "https://github.com/aruwanip/eloquent-javascript#readme",
   "devDependencies": {
+    "@types/node": "^20.11.19",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "dijkstrajs": "^1.0.3",
+    "random-item": "^4.0.1"
   }
 }
