@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<body>
+<h1>Mountains</h1>
+<div id="mountains"></div>
+</body>
+
+<script>
+    const MOUNTAINS = [
+        { name: 'Kilimanjaro', height: 5895, place: 'Tanzania' },
+        { name: 'Everest', height: 8848, place: 'Nepal' },
+        { name: 'Mount Fuji', height: 3776, place: 'Japan' },
+        { name: 'Vaalserberg', height: 323, place: 'Netherlands' },
+        { name: 'Denali', height: 6168, place: 'United States' },
+        { name: 'Popocatepetl', height: 5465, place: 'Mexico' },
+        { name: 'Mont Blanc', height: 4808, place: 'Italy/France' }
+    ];
+
+    const tableNode = document.createElement('table');
+
+    // Create header row
+    const headerRowNode = document.createElement('tr');
+    const columnKeys = Object.keys(MOUNTAINS[0]);
+    for (let key of columnKeys) {
+        const headerNode = document.createElement('th')
+        headerNode.appendChild(document.createTextNode(key));
+        headerRowNode.appendChild(headerNode);
+    }
+    tableNode.appendChild(headerRowNode);
+
+    // Create data rows
+    for (let mountain of MOUNTAINS) {
+        const dataRowNode = document.createElement('tr');
+        for (let key of columnKeys) {
+            const dataNode = document.createElement('td')
+            dataNode.appendChild(document.createTextNode(mountain[key]));
+            if (!isNaN(Number(mountain[key]))) {
+                dataNode.style.textAlign = 'right';
+            }
+            dataRowNode.appendChild(dataNode);
+        }
+        tableNode.appendChild(dataRowNode);
+    }
+
+    document.getElementById('mountains').appendChild(tableNode);
+</script>
+</html>
